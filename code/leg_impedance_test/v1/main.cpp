@@ -12,45 +12,46 @@ int main()
 	int32_t torque2 = 0;
 	double angle1, angle2;
 	double before_angle1, before_angle2;
-	double w1, w2;
+	double omega1, omega2;
 	double d_t;
 	Controller Controller;
-	CAN can;
+	CAN CAN;
 
-	can.open();
+	CAN.open();
 	int count = 0;
 	while (true)
 	{
 		count++;
-		can.hardware_control(torque1, torque2, angle1, before_angle1, w1, angle2, before_angle2, w2, count, d_t);
-		cout << "angle1: " << angle1 << ", w1: " << w1 << ", angle2: " << angle2 << ", w2: " << w2 <<", count:"<< count << endl;
+		CAN.hardware_control(torque1, torque2, angle1, before_angle1, omega1, angle2, before_angle2, omega2, count, d_t);
+		cout << "angle1: " << angle1 << ", omega1: " << omega1 << ", angle2: " << angle2 << ", omega2: " << omega2 <<", count:"<< count << endl;
 		if (count > 300)
 			break;
 	}
-	vec2 tau (0,0);
+
+	Vector2d tau(0,0);
 	while (true)
 	{
 		count++;
-		can.hardware_control(torque1,torque2, angle1, before_angle1, w1, angle2, before_angle2, w2, count, d_t);
+		CAN.hardware_control(torque1,torque2, angle1, before_angle1, omega1, angle2, before_angle2, omega2, count, d_t);
 		cout << angle1 << "," << angle2 << endl;
 		//cout << "torque1: " << torque1 << ", torque2: " << torque2 << endl;
 		//cout << "torque1: " << tau[0] << ", torque2: " << tau[1] << ", ";
-		//cout << "angle1: " << angle1 << ", w1: " << w1 << ", angle2: " << angle2 << ", w2: " << w2 << ", count:" << count << endl;
-		tau = Controller.leg2spring(angle1, angle2, w1, w2);
+		//cout << "angle1: " << angle1 << ", omega1: " << omega1 << ", angle2: " << angle2 << ", omega2: " << omega2 << ", count:" << count << endl;
+		tau = Controller.leg2spring(angle1, angle2, omega1, omega2);
 		
 		//torque ����
 		double limit_torque = 0.3;
-		if (limit_torque < tau[0])
-			tau[0] = limit_torque;
-		else if (-limit_torque > tau[0])
-			tau[0] = -limit_torque;
-		if (limit_torque < tau[1])
-			tau[1] = limit_torque;
-		else if (-limit_torque > tau[1])
-			tau[1] = -limit_torque;
+		if (limit_torque < tau.coeff(0, 0))
+			tau(0, 0) = limit_torque;
+		else if (-limit_torque > tau.coeff(0, 0))
+			tau(0, 0) = -limit_torque;
+		if (limit_torque < tau.coeff(1, 0))
+			tau(1, 0) = limit_torque;
+		else if (-limit_torque > tau.coeff(1, 0))
+			tau(1, 0) = -limit_torque;
 		
-		torque1 = torque2input(tau[0]);
-		torque2 = torque2input(tau[1]);
+		torque1 = torque2input(tau(0, 0));
+		torque2 = torque2input(tau(0, 0));
 	}
 	return 0;
 }
@@ -119,6 +120,3 @@ int main()
 //
 //
 //}
-
-
-

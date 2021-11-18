@@ -68,6 +68,8 @@ void CAN::hardware_control(int32_t& torque1, int32_t& torque2, double& angle1, d
 			rpm2 = readdata[2];
 		}
 	}
+
+	
 	int encod1;
 	int encod2;
 	encod1 = encoder1 - 411;//411
