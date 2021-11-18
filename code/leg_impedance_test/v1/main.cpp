@@ -1,9 +1,11 @@
 #include "CAN.h"
 #include "controller.h"
+
 double torque2input(double tq)
 {
 	return tq * (4 / 3) * (2000 / 3.2)*0.1;
 }
+
 int main()
 {
 	int32_t torque1 = 0;
@@ -36,7 +38,7 @@ int main()
 		//cout << "angle1: " << angle1 << ", w1: " << w1 << ", angle2: " << angle2 << ", w2: " << w2 << ", count:" << count << endl;
 		tau = Controller.leg2spring(angle1, angle2, w1, w2);
 		
-		//torque Á¦ÇÑ
+		//torque ï¿½ï¿½ï¿½ï¿½
 		double limit_torque = 0.3;
 		if (limit_torque < tau[0])
 			tau[0] = limit_torque;
