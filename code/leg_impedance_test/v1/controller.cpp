@@ -1,5 +1,6 @@
 #include "controller.h"
 #include <cstdio>
+
 controller::controller()
 {
     l1 = 0.2;
@@ -17,6 +18,7 @@ controller::controller()
     dt = 0;
     dtd = 0;
 }
+
 mat2 controller::jacobian(double theta2)
 {
     double Jr11 = 0;
@@ -30,6 +32,7 @@ mat2 controller::jacobian(double theta2)
     J[1] = J_t;
     return J;
 }
+
 vec2 controller::leg2spring(double theta1, double theta2, double omega1, double omega2)
 {
     mat2 J = jacobian(theta2);

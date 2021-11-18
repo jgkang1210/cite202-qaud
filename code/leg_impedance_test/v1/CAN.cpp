@@ -1,4 +1,5 @@
 #include "CAN.h"
+
 CAN::CAN()
 {
 	id1 = 0x142;
@@ -75,7 +76,7 @@ void CAN::hardware_control(int32_t& torque1, int32_t& torque2, double& angle1, d
 	angle1 = (encod1 * (double)((360. / 16383.))) * (M_PI / 180.0);
 	angle2 = (encod2 * (double)((360. / 16383.))) * (M_PI / 180.0);
 	//cout << "encoder1: "<<angle1 << ", encoder2: " << angle2 << endl; //test
-	w1 = rpm1 * 0.16666666666667 * (double)((2. * 3.141592) / 60.); //¼öÁ¤ÇÊ¿ä
+	w1 = rpm1 * 0.16666666666667 * (double)((2. * 3.141592) / 60.); //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
 	w2 = rpm2 * 0.16666666666667 * (double)((2. * 3.141592) / 60.);
 	//cout<<"w2 : " <<w2<<endl;
 	//w1 = getomega(before_angle1, angle1, d_t);
@@ -91,7 +92,7 @@ void CAN::close()
 {
 	CAN_Close(h);
 }
-void CAN::encoder2angle(double encod1, double& ang1, double encod2, double& ang2) //0µµÀÏ¶§ encoder°ªÀÌ 16383/2°¡ µÇµµ·Ï
+void CAN::encoder2angle(double encod1, double& ang1, double encod2, double& ang2) //0ï¿½ï¿½ï¿½Ï¶ï¿½ encoderï¿½ï¿½ï¿½ï¿½ 16383/2ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½
 {
 	
 	ang1 = (encod1 * (double)((360. / 16383.)) - 150.) * (M_PI / 180.0);
@@ -100,7 +101,7 @@ void CAN::encoder2angle(double encod1, double& ang1, double encod2, double& ang2
 }
 void CAN::rpm2omega(double rp1, double& omega1, double rp2, double& omega2)
 {
-	omega1 = rp1 * ((2 * M_PI) / 60); //¼öÁ¤ÇÊ¿ä
+	omega1 = rp1 * ((2 * M_PI) / 60); //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
 	omega2 = rp2 * ((2 * M_PI) / 60);
 }
 double CAN::getomega(double& before_Angle, double& Angle, double delta_t)
