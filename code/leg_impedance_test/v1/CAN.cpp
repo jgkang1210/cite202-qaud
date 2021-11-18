@@ -6,12 +6,14 @@ CAN::CAN()
 	id2 = 0x141;
 	len = 8;
 }
+
 void CAN::open()
 {
 	h = CAN_OpenUsb("NT5YYJCT");
 	CAN_SetTransferMode(h, 1);
 	sleep_for(std::chrono::milliseconds(1000));
 }
+
 vector<double> CAN::readData()
 {
 	char rdata[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -35,6 +37,7 @@ vector<double> CAN::readData()
 	else
 		return { -1, 0, 0, 0 };
 }
+
 void CAN::hardware_control(int32_t& torque1, int32_t& torque2, double& angle1, double& before_angle1, double& w1, double& angle2, double& before_angle2, double& w2, int count, double &d_t)
 {
 	std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
@@ -88,10 +91,12 @@ void CAN::hardware_control(int32_t& torque1, int32_t& torque2, double& angle1, d
 	std::chrono::microseconds micro = std::chrono::duration_cast<std::chrono::microseconds>(EndTime - StartTime);
 	d_t = (double)micro.count() * (1.0/1000000.0);
 }
+
 void CAN::close()
 {
 	CAN_Close(h);
 }
+
 void CAN::encoder2angle(double encod1, double& ang1, double encod2, double& ang2) //0���϶� encoder���� 16383/2�� �ǵ���
 {
 	
@@ -99,11 +104,13 @@ void CAN::encoder2angle(double encod1, double& ang1, double encod2, double& ang2
 	ang2 = (encod2 * (double)((360. / 16383.)) - 180.) * (M_PI / 180.0);
 
 }
+
 void CAN::rpm2omega(double rp1, double& omega1, double rp2, double& omega2)
 {
 	omega1 = rp1 * ((2 * M_PI) / 60); //�����ʿ�
 	omega2 = rp2 * ((2 * M_PI) / 60);
 }
+
 double CAN::getomega(double& before_Angle, double& Angle, double delta_t)
 {
 	if (Angle - before_Angle >= M_PI)

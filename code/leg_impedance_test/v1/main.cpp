@@ -14,7 +14,7 @@ int main()
 	double before_angle1, before_angle2;
 	double w1, w2;
 	double d_t;
-	controller Controller;
+	Controller Controller;
 	CAN can;
 
 	can.open();

@@ -2,10 +2,12 @@
 #define _USE_MATH_DEFINES
 #include <iostream>
 #include <cmath>
-#include <glm/glm.hpp>
+#include <Eigen/Dense>
+
 using namespace std;
-using namespace glm;
-class controller
+using namespace Eigen;
+
+class Controller
 {
 private:
     double l1;
@@ -24,7 +26,7 @@ private:
 
     mat2 jacobian(double theta2);
 public:
-    controller();
+    Controller();
     vec2 leg2spring(double theta1, double theta2, double omega1, double omega2);
     vec2 vec2product(mat2 J, vec2 w);
 };

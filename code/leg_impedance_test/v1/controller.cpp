@@ -1,7 +1,7 @@
 #include "controller.h"
 #include <cstdio>
 
-controller::controller()
+Controller::Controller()
 {
     l1 = 0.2;
     l2 = 0.22;
@@ -19,7 +19,7 @@ controller::controller()
     dtd = 0;
 }
 
-mat2 controller::jacobian(double theta2)
+mat2 Controller::jacobian(double theta2)
 {
     double Jr11 = 0;
     double Jr12 = -(l1 * l2 * sin(theta2)) / pow((pow(l1, 2) + pow(l2, 2) + 2 * l1 * l2 * cos(theta2)), 0.5);
@@ -33,7 +33,7 @@ mat2 controller::jacobian(double theta2)
     return J;
 }
 
-vec2 controller::leg2spring(double theta1, double theta2, double omega1, double omega2)
+vec2 Controller::leg2spring(double theta1, double theta2, double omega1, double omega2)
 {
     mat2 J = jacobian(theta2);
     //damped Jacobian
@@ -74,7 +74,7 @@ vec2 controller::leg2spring(double theta1, double theta2, double omega1, double 
     return tau;
 }
 
-vec2 controller::vec2product(mat2 J, vec2 w)
+vec2 Controller::vec2product(mat2 J, vec2 w)
 {
     double vec11 = J[0].x * w.x + J[0].y * w.y;
     double vec22 = J[1].x * w.x + J[1].y * w.y;
